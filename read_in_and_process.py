@@ -1,4 +1,5 @@
 import os
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 def get_topics():
 	directory = os.getcwd()
@@ -16,7 +17,8 @@ def read_in_and_save(topic):
 	for filename in os.listdir(directory):
 		with open(os.path.join(directory, filename)) as file:
 			data = file.read()
-			toReturn.append(data.split())
+			toReturn.append(data)
+			#toReturn.append(data.split())
 	return toReturn
 
 topics = get_topics()
@@ -24,4 +26,7 @@ documents = {}
 for topic in topics:
 	documents[topic] = read_in_and_save(topic)
 
+vectorizer = TfidfVectorizer(min_df=1)
+X = vectorizer.fit_transform(documents.values())
+	
 	
